@@ -3,562 +3,613 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Мои увлечения — My Hobbies</title>
+<title>English Learning — Английский для детей</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Segoe UI', 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif;
-    background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 50%, #fff8e1 100%);
+    font-family: 'Segoe UI', 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+    background: linear-gradient(160deg, #e8f5e9 0%, #e3f2fd 40%, #fff9c4 100%);
     min-height: 100vh;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
     position: relative;
   }
 
-  /* === DECORATIVE ELEMENTS === */
-  .decoration { position: fixed; pointer-events: none; z-index: 0; opacity: 0.15; }
-
-  .leaf {
+  /* ===== FLOATING PARTICLES ===== */
+  .particle {
     position: fixed;
+    border-radius: 50%;
     pointer-events: none;
-    z-index: 0;
-    animation: floatLeaf 8s ease-in-out infinite;
+    opacity: 0.15;
+    animation: floatParticle 10s ease-in-out infinite;
   }
 
-  .drop {
+  @keyframes floatParticle {
+    0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+    25% { transform: translateY(-30px) translateX(15px) scale(1.1); }
+    50% { transform: translateY(-10px) translateX(-10px) scale(0.9); }
+    75% { transform: translateY(-25px) translateX(20px) scale(1.05); }
+  }
+
+  .leaf-deco {
     position: fixed;
+    font-size: 2.5rem;
+    opacity: 0.12;
     pointer-events: none;
-    z-index: 0;
-    animation: floatDrop 6s ease-in-out infinite;
+    animation: spinFloat 12s linear infinite;
   }
 
-  @keyframes floatLeaf {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-15px) rotate(10deg); }
-    50% { transform: translateY(-5px) rotate(-5deg); }
-    75% { transform: translateY(-20px) rotate(8deg); }
+  @keyframes spinFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-40px) rotate(180deg); }
+    100% { transform: translateY(0) rotate(360deg); }
   }
 
-  @keyframes floatDrop {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-12px) scale(1.1); }
-  }
-
-  /* === HEADER === */
-  .header {
+  /* ===== MAIN CONTAINER ===== */
+  .main-container {
     text-align: center;
-    padding: 30px 20px 20px;
-    position: relative;
     z-index: 1;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    margin-bottom: 50px;
+    animation: fadeInDown 1s ease;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .header h1 {
-    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-size: clamp(2rem, 6vw, 3.5rem);
     color: #2e7d32;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 8px;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.08);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .header h1 span {
+    color: #1565c0;
   }
 
   .header .subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-    color: #1565c0;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    color: #555;
     font-weight: 600;
   }
 
-  .header .hint {
+  .header .emoji-row {
+    font-size: 2rem;
     margin-top: 12px;
-    font-size: clamp(0.8rem, 2vw, 1.1rem);
-    color: #666;
-    background: rgba(255,255,255,0.7);
-    display: inline-block;
-    padding: 8px 20px;
-    border-radius: 20px;
-    border: 2px dashed #a5d6a7;
+    letter-spacing: 8px;
   }
 
-  /* === GRID === */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 24px;
-    padding: 20px 30px 40px;
-    max-width: 1400px;
-    margin: 0 auto;
+  /* ===== CARDS CONTAINER ===== */
+  .cards-wrapper {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ===== CARD ===== */
+  .card-link {
+    text-decoration: none;
+    display: block;
+    width: clamp(280px, 35vw, 380px);
+    animation: fadeInUp 0.8s ease both;
     position: relative;
-    z-index: 1;
   }
 
-  /* === CARD === */
+  .card-link:nth-child(1) { animation-delay: 0.3s; }
+  .card-link:nth-child(2) { animation-delay: 0.6s; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .card {
     background: #fff;
-    border-radius: 20px;
+    border-radius: 28px;
     overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     position: relative;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    cursor: pointer;
+    border: 4px solid transparent;
   }
 
   .card:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  }
+
+  .card-link:nth-child(1) .card:hover {
+    border-color: #4caf50;
+    box-shadow: 0 20px 50px rgba(76,175,80,0.3);
+  }
+
+  .card-link:nth-child(2) .card:hover {
+    border-color: #1565c0;
+    box-shadow: 0 20px 50px rgba(21,101,192,0.3);
   }
 
   .card:active {
     transform: scale(0.97);
   }
 
-  .card.active {
-    box-shadow: 0 8px 25px rgba(46,125,50,0.35);
-    border: 3px solid #4caf50;
-  }
-
-  .card-img-wrapper {
-    width: 100%;
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    background: #f5f5f5;
+  /* Card Top Banner */
+  .card-banner {
+    height: 180px;
     position: relative;
-  }
-
-  .card-img-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-  }
-
-  .card:hover .card-img-wrapper img {
-    transform: scale(1.05);
-  }
-
-  .card-russian {
-    padding: 12px 16px;
-    text-align: center;
-    font-size: clamp(0.95rem, 2vw, 1.15rem);
-    font-weight: 700;
-    color: #333;
-    background: linear-gradient(135deg, #e8f5e9, #e3f2fd);
-    border-top: 2px solid #c8e6c9;
-  }
-
-  .card-number {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, #4caf50, #2e7d32);
-    color: #fff;
-    border-radius: 50%;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .card-link:nth-child(1) .card-banner {
+    background: linear-gradient(135deg, #a5d6a7, #66bb6a, #43a047);
+  }
+
+  .card-link:nth-child(2) .card-banner {
+    background: linear-gradient(135deg, #90caf9, #42a5f5, #1e88e5);
+  }
+
+  .card-banner .banner-emoji {
+    font-size: 5rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    animation: pulseEmoji 2s ease-in-out infinite;
     z-index: 2;
   }
 
-  /* === INFO PANEL === */
-  .info-panel-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 100;
-    animation: fadeIn 0.3s ease;
+  @keyframes pulseEmoji {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
   }
 
-  .info-panel-overlay.visible {
-    display: block;
+  /* Floating elements inside banner */
+  .banner-float {
+    position: absolute;
+    font-size: 1.8rem;
+    opacity: 0.5;
+    animation: bannerFloat 4s ease-in-out infinite;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  @keyframes bannerFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(10deg); }
   }
 
-  .info-panel {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95%;
-    max-width: 500px;
-    background: linear-gradient(135deg, #ffffff, #f1f8e9);
-    border-radius: 24px 24px 0 0;
-    padding: 30px 24px 36px;
-    z-index: 101;
-    box-shadow: 0 -8px 40px rgba(0,0,0,0.25);
-    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Card Body */
+  .card-body {
+    padding: 28px 24px 32px;
     text-align: center;
+    position: relative;
   }
 
-  @keyframes slideUp {
-    from { transform: translateX(-50%) translateY(100%); }
-    to { transform: translateX(-50%) translateY(0); }
+  .card-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
   }
 
-  .info-panel .close-hint {
-    font-size: 0.85rem;
-    color: #999;
-    margin-top: 16px;
+  .card-link:nth-child(1) .card-body::before {
+    background: linear-gradient(90deg, #4caf50, #81c784, #4caf50);
   }
 
-  .info-panel .close-hint span {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    background: #e0e0e0;
-    border-radius: 50%;
-    line-height: 28px;
-    font-weight: bold;
-    color: #666;
+  .card-link:nth-child(2) .card-body::before {
+    background: linear-gradient(90deg, #1565c0, #42a5f5, #1565c0);
   }
 
-  .info-panel .img-preview {
-    width: 120px;
-    height: 90px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin: 0 auto 16px;
-    display: block;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-  }
-
-  .info-panel .ru-text {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 10px;
-  }
-
-  .info-panel .arrow {
-    font-size: 1.5rem;
-    color: #4caf50;
-    margin-bottom: 8px;
-  }
-
-  .info-panel .en-text {
-    font-size: 1.6rem;
+  .card-title {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
     font-weight: 800;
-    color: #1565c0;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-  }
-
-  .info-panel .transcription {
-    font-size: 1.15rem;
-    color: #6a1b9a;
-    font-weight: 600;
-    background: #f3e5f5;
-    display: inline-block;
-    padding: 6px 18px;
-    border-radius: 14px;
-    margin-top: 4px;
-  }
-
-  .info-panel .emoji-badge {
-    font-size: 2rem;
     margin-bottom: 8px;
   }
 
-  /* === RESPONSIVE === */
+  .card-link:nth-child(1) .card-title { color: #2e7d32; }
+  .card-link:nth-child(2) .card-title { color: #1565c0; }
+
+  .card-description {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .card-tag {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .card-link:nth-child(1) .card-tag {
+    background: #e8f5e9;
+    color: #388e3c;
+    border: 1px solid #c8e6c9;
+  }
+
+  .card-link:nth-child(2) .card-tag {
+    background: #e3f2fd;
+    color: #1565c0;
+    border: 1px solid #bbdefb;
+  }
+
+  /* CTA Button */
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-link:nth-child(1) .card-cta {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+    box-shadow: 0 4px 15px rgba(76,175,80,0.4);
+  }
+
+  .card-link:nth-child(2) .card-cta {
+    background: linear-gradient(135deg, #1565c0, #0d47a1);
+    box-shadow: 0 4px 15px rgba(21,101,192,0.4);
+  }
+
+  .card-cta:hover {
+    transform: scale(1.05);
+  }
+
+  .card-link:nth-child(1) .card-cta:hover {
+    box-shadow: 0 6px 25px rgba(76,175,80,0.6);
+  }
+
+  .card-link:nth-child(2) .card-cta:hover {
+    box-shadow: 0 6px 25px rgba(21,101,192,0.6);
+  }
+
+  .card-cta .arrow {
+    transition: transform 0.3s ease;
+    font-size: 1.3rem;
+  }
+
+  .card:hover .card-cta .arrow {
+    transform: translateX(5px);
+  }
+
+  /* Shine effect */
+  .card-link:nth-child(1) .card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 40%,
+      rgba(255,255,255,0.15) 50%,
+      transparent 60%
+    );
+    transition: transform 0.6s ease;
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+
+  .card-link:nth-child(2) .card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 40%,
+      rgba(255,255,255,0.15) 50%,
+      transparent 60%
+    );
+    transition: transform 0.6s ease;
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+
+  .card-link:nth-child(1) .card:hover::after {
+    transform: translateX(100%);
+  }
+
+  .card-link:nth-child(2) .card:hover::after {
+    transform: translateX(100%);
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    margin-top: 50px;
+    font-size: 0.9rem;
+    color: #999;
+    animation: fadeInUp 1s ease 1s both;
+  }
+
+  .footer .heart {
+    color: #e53935;
+    display: inline-block;
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  /* ===== RIPPLE EFFECT ===== */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transform: scale(0);
+    animation: rippleAnim 0.6s ease-out;
+    pointer-events: none;
+  }
+
+  @keyframes rippleAnim {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    .grid {
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 16px;
-      padding: 16px;
+    .cards-wrapper {
+      gap: 28px;
+      padding: 0 10px;
     }
-    .header { padding: 20px 16px 12px; }
-    .info-panel { padding: 24px 20px 30px; }
+    .card-link {
+      width: clamp(260px, 80vw, 340px);
+    }
+    .card-banner { height: 150px; }
+    .card-banner .banner-emoji { font-size: 4rem; }
+    .header { margin-bottom: 35px; }
   }
 
   @media (max-width: 480px) {
-    .grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      padding: 12px;
+    .cards-wrapper {
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
     }
-    .card-russian { padding: 8px 10px; font-size: 0.85rem; }
-    .card-number { width: 26px; height: 26px; font-size: 0.75rem; }
+    .card-link {
+      width: 90%;
+      max-width: 320px;
+    }
+    .card-banner { height: 130px; }
+    .card-banner .banner-emoji { font-size: 3.5rem; }
+    .card-body { padding: 20px 18px 24px; }
   }
 
-  /* === PLACEHOLDER SVG IMAGES === */
-  .placeholder-img {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3.5rem;
-    background: linear-gradient(135deg, #e8f5e9, #e3f2fd);
+  /* ===== GLOW RING ===== */
+  .glow-ring {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    opacity: 0.08;
+    pointer-events: none;
+    animation: glowPulse 4s ease-in-out infinite;
   }
 
-  /* === COLOR THEMES FOR CARDS === */
-  .card[data-theme="green"] .card-russian { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-top-color: #a5d6a7; }
-  .card[data-theme="blue"] .card-russian { background: linear-gradient(135deg, #e3f2fd, #bbdefb); border-top-color: #90caf9; }
-  .card[data-theme="yellow"] .card-russian { background: linear-gradient(135deg, #fff8e1, #ffecb3); border-top-color: #ffe082; }
-  .card[data-theme="pink"] .card-russian { background: linear-gradient(135deg, #fce4ec, #f8bbd0); border-top-color: #f48fb1; }
-  .card[data-theme="purple"] .card-russian { background: linear-gradient(135deg, #f3e5f5, #e1bee7); border-top-color: #ce93d8; }
-  .card[data-theme="orange"] .card-russian { background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-top-color: #ffcc80; }
-
-  /* === WATER DROP & LEAF ICONS === */
-  .icon-leaf {
-    display: inline-block;
-    margin-right: 4px;
+  @keyframes glowPulse {
+    0%, 100% { transform: scale(1); opacity: 0.08; }
+    50% { transform: scale(1.3); opacity: 0.03; }
   }
 
-  /* === PULSE ANIMATION FOR ACTIVE === */
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(76,175,80,0.4); }
-    70% { box-shadow: 0 0 0 12px rgba(76,175,80,0); }
-    100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
+  .glow-ring-1 {
+    top: 10%;
+    left: 5%;
+    background: #4caf50;
   }
 
-  .card.active { animation: pulse 1.5s infinite; }
+  .glow-ring-2 {
+    bottom: 10%;
+    right: 5%;
+    background: #1565c0;
+  }
+
+  .glow-ring-3 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffc107;
+    width: 300px;
+    height: 300px;
+  }
 </style>
 </head>
 <body>
 
-<!-- DECORATIVE LEAVES AND DROPS -->
-<div class="leaf" style="top:5%;left:3%;font-size:2rem;animation-delay:0s;"></div>
-<div class="leaf" style="top:15%;right:5%;font-size:1.5rem;animation-delay:1s;"></div>
-<div class="drop" style="top:30%;left:8%;font-size:1.2rem;animation-delay:0.5s;">💧</div>
-<div class="leaf" style="top:50%;right:3%;font-size:2rem;animation-delay:2s;">🍀</div>
-<div class="drop" style="top:70%;left:5%;font-size:1rem;animation-delay:1.5s;">💧</div>
-<div class="leaf" style="top:80%;right:8%;font-size:1.5rem;animation-delay:0.8s;">🌱</div>
-<div class="drop" style="top:45%;left:2%;font-size:1.3rem;animation-delay:2.5s;">💧</div>
-<div class="leaf" style="top:60%;left:95%;font-size:1.8rem;animation-delay:1.2s;">🍃</div>
-<div class="drop" style="top:90%;left:50%;font-size:1rem;animation-delay:0.3s;">💧</div>
-<div class="leaf" style="top:10%;left:50%;font-size:1.6rem;animation-delay:3s;">🌿</div>
+<!-- DECORATIVE PARTICLES -->
+<div class="particle" style="top:10%;left:8%;width:80px;height:80px;background:#4caf50;animation-delay:0s;"></div>
+<div class="particle" style="top:20%;right:12%;width:60px;height:60px;background:#1565c0;animation-delay:1s;"></div>
+<div class="particle" style="top:60%;left:15%;width:50px;height:50px;background:#ffc107;animation-delay:2s;"></div>
+<div class="particle" style="top:75%;right:10%;width:70px;height:70px;background:#4caf50;animation-delay:0.5s;"></div>
+<div class="particle" style="top:40%;left:3%;width:40px;height:40px;background:#1565c0;animation-delay:1.5s;"></div>
+<div class="particle" style="top:85%;left:40%;width:55px;height:55px;background:#ffc107;animation-delay:3s;"></div>
 
-<!-- HEADER -->
-<div class="header">
-  <h1> Мои увлечения — My Hobbies </h1>
-  <div class="subtitle">Учим английские словосочетания! 🇬🇧</div>
-  <div class="hint">👆 Нажми на карточку, чтобы узнать перевод!</div>
-</div>
+<!-- FLOATING LEAVES & DROPS -->
+<div class="leaf-deco" style="top:8%;left:5%;animation-delay:0s;">🍃</div>
+<div class="leaf-deco" style="top:15%;right:8%;animation-delay:2s;">💧</div>
+<div class="leaf-deco" style="top:45%;left:3%;animation-delay:4s;">🌿</div>
+<div class="leaf-deco" style="top:70%;right:5%;animation-delay:1s;"></div>
+<div class="leaf-deco" style="top:85%;left:10%;animation-delay:3s;">💧</div>
+<div class="leaf-deco" style="top:35%;right:3%;animation-delay:5s;">🌱</div>
 
-<!-- GRID -->
-<div class="grid" id="grid"></div>
+<!-- GLOW RINGS -->
+<div class="glow-ring glow-ring-1"></div>
+<div class="glow-ring glow-ring-2"></div>
+<div class="glow-ring glow-ring-3"></div>
 
-<!-- INFO PANEL OVERLAY -->
-<div class="info-panel-overlay" id="overlay"></div>
-<div class="info-panel" id="infoPanel" style="display:none;">
-  <div class="emoji-badge" id="panelEmoji"></div>
-  <img class="img-preview" id="panelImg" src="" alt="">
-  <div class="ru-text" id="panelRu"></div>
-  <div class="arrow">⬇️</div>
-  <div class="en-text" id="panelEn"></div>
-  <div class="transcription" id="panelTrans"></div>
-  <div class="close-hint">Нажми на пустое место, чтобы закрыть <span>✕</span></div>
+<!-- MAIN CONTENT -->
+<div class="main-container">
+
+  <div class="header">
+    <h1> Учим <span>English</span> играя! 🎓</h1>
+    <div class="subtitle">Интерактивные уроки для детей</div>
+    <div class="emoji-row">🌟 ✨  🎨 🎵</div>
+  </div>
+
+  <div class="cards-wrapper">
+
+    <!-- CARD 1: Мои увлечения -->
+    <a href="hobbies.html" class="card-link" id="card1">
+      <div class="card">
+        <div class="card-banner">
+          <span class="banner-float" style="top:15%;left:15%;animation-delay:0s;">🎨</span>
+          <span class="banner-float" style="top:20%;right:20%;animation-delay:1s;">📖</span>
+          <span class="banner-float" style="bottom:15%;left:25%;animation-delay:0.5s;">🎵</span>
+          <span class="banner-float" style="bottom:20%;right:15%;animation-delay:1.5s;">🎭</span>
+          <span class="banner-emoji">🎯</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Мои увлечения</div>
+          <div class="card-description">
+            12 карточек с хобби — рисование, музыка, спорт и многое другое! Учим предложения от первого лица.
+          </div>
+          <div class="card-tags">
+            <span class="card-tag"> Хобби</span>
+            <span class="card-tag">📝 12 слов</span>
+            <span class="card-tag">🇬🇧 English</span>
+          </div>
+          <div class="card-cta">
+            Начать урок
+            <span class="arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 2: Еда в холодильнике -->
+    <a href="food/fridge-food.html" class="card-link" id="card2">
+      <div class="card">
+        <div class="card-banner">
+          <span class="banner-float" style="top:15%;left:15%;animation-delay:0s;">🥛</span>
+          <span class="banner-float" style="top:20%;right:20%;animation-delay:1s;"></span>
+          <span class="banner-float" style="bottom:15%;left:25%;animation-delay:0.5s;"></span>
+          <span class="banner-float" style="bottom:20%;right:15%;animation-delay:1.5s;"></span>
+          <span class="banner-emoji">🧊</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Еда в холодильнике</div>
+          <div class="card-description">
+            12 карточек с едой — молоко, сыр, овощи, фрукты. Учим названия продуктов на английском!
+          </div>
+          <div class="card-tags">
+            <span class="card-tag"> Еда</span>
+            <span class="card-tag">📝 12 слов</span>
+            <span class="card-tag">🇬🇧 English</span>
+          </div>
+          <div class="card-cta">
+            Начать урок
+            <span class="arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    Создано с <span class="heart">❤️</span> для маленьких полиглотов
+  </div>
+
 </div>
 
 <script>
-// === DATA ===
-const hobbies = [
-  {
-    id: 0,
-    ru: "Я люблю математику",
-    en: "I like math",
-    trans: "[ай лайк мэс]",
-    emoji: "🔢",
-    theme: "green",
-    img: "img1.png"
-  },
-  {
-    id: 1,
-    ru: "Я люблю читать книги",
-    en: "I like reading books",
-    trans: "[ай лайк ри́динг букс]",
-    emoji: "",
-    theme: "blue",
-    img: "img2.png"
-  },
-  {
-    id: 2,
-    ru: "Я люблю рисовать",
-    en: "I like drawing",
-    trans: "[ай лайк дро́инг]",
-    emoji: "🎨",
-    theme: "yellow",
-    img: "img3.png"
-  },
-  {
-    id: 3,
-    ru: "Я люблю слушать музыку",
-    en: "I like listening to music",
-    trans: "[ай лайк ли́сенинг ту мью́зик]",
-    emoji: "🎧",
-    theme: "pink",
-    img: "img4.png"
-  },
-  {
-    id: 4,
-    ru: "Я люблю петь",
-    en: "I like singing",
-    trans: "[ай лайк си́нги́нг]",
-    emoji: "🎤",
-    theme: "purple",
-    img: "img5.png"
-  },
-  {
-    id: 5,
-    ru: "Я люблю гулять в парке",
-    en: "I like walking in the park",
-    trans: "[ай лайк во́кинг ин зе па́рк]",
-    emoji: "🌳",
-    theme: "green",
-    img: "img6.png"
-  },
-  {
-    id: 6,
-    ru: "Я люблю играть с котиком",
-    en: "I like playing with a cat",
-    trans: "[ай лайк плейинг уиз э кэт]",
-    emoji: "🐱",
-    theme: "orange",
-    img: "img7.png"
-  },
-  {
-    id: 7,
-    ru: "Я люблю летать на самолёте",
-    en: "I like flying in a plane",
-    trans: "[ай лайк фла́йинг ин э плэйн]",
-    emoji: "✈️",
-    theme: "blue",
-    img: "img8.png"
-  },
-  {
-    id: 8,
-    ru: "Я люблю плавать в озере",
-    en: "I like swimming in the lake",
-    trans: "[ай лайк сви́минг ин зе лэйк]",
-    emoji: "🏊",
-    theme: "blue",
-    img: "img9.png"
-  },
-  {
-    id: 9,
-    ru: "Я люблю собирать грибы",
-    en: "I like picking mushrooms",
-    trans: "[ай лайк пи́кинг машрумз]",
-    emoji: "",
-    theme: "green",
-    img: "img10.png"
-  },
-  {
-    id: 10,
-    ru: "Я люблю играть в шахматы",
-    en: "I like playing chess",
-    trans: "[ай лайк плейинг чэс]",
-    emoji: "♟️",
-    theme: "yellow",
-    img: "img11.png"
-  },
-  {
-    id: 11,
-    ru: "Я люблю танцевать",
-    en: "I like dancing",
-    trans: "[ай лайк да́нсинг]",
-    emoji: "💃",
-    theme: "pink",
-    img: "img12.png"
-  }
-];
+// ===== RIPPLE EFFECT ON CLICK =====
+document.querySelectorAll('.card-link').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    var rect = this.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
 
-// === BUILD CARDS ===
-const grid = document.getElementById('grid');
+    var ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.style.width = '100px';
+    ripple.style.height = '100px';
+    ripple.style.marginLeft = '-50px';
+    ripple.style.marginTop = '-50px';
 
-hobbies.forEach((h, index) => {
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.dataset.theme = h.theme;
-  card.dataset.index = index;
+    this.querySelector('.card').appendChild(ripple);
 
-  card.innerHTML = `
-    <div class="card-number">${index + 1}</div>
-    <div class="card-img-wrapper">
-      <img src="${h.img}" alt="${h.ru}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="placeholder-img" style="display:none;">${h.emoji}</div>
-    </div>
-    <div class="card-russian">${h.ru}</div>
-  `;
-
-  card.addEventListener('click', function(e) {
-    e.stopPropagation();
-    showPanel(h);
+    setTimeout(function() {
+      ripple.remove();
+    }, 600);
   });
-
-  grid.appendChild(card);
 });
 
-// === INFO PANEL LOGIC ===
-const overlay = document.getElementById('overlay');
-const infoPanel = document.getElementById('infoPanel');
-const panelEmoji = document.getElementById('panelEmoji');
-const panelImg = document.getElementById('panelImg');
-const panelRu = document.getElementById('panelRu');
-const panelEn = document.getElementById('panelEn');
-const panelTrans = document.getElementById('panelTrans');
-let activeCard = null;
-
-function showPanel(hobby) {
-  // Remove previous active
-  if (activeCard) activeCard.classList.remove('active');
-
-  // Set active
-  activeCard = document.querySelector(`.card[data-index="${hobby.id}"]`);
-  if (activeCard) activeCard.classList.add('active');
-
-  // Fill panel
-  panelEmoji.textContent = hobby.emoji;
-  panelImg.src = hobby.img;
-  panelImg.onerror = function() { this.style.display = 'none'; };
-  panelRu.textContent = hobby.ru;
-  panelEn.textContent = hobby.en;
-  panelTrans.textContent = hobby.trans;
-
-  // Show
-  overlay.classList.add('visible');
-  infoPanel.style.display = 'block';
-}
-
-function hidePanel() {
-  overlay.classList.remove('visible');
-  infoPanel.style.display = 'none';
-  if (activeCard) {
-    activeCard.classList.remove('active');
-    activeCard = null;
-  }
-}
-
-// Click on overlay to close
-overlay.addEventListener('click', hidePanel);
-
-// Click anywhere else (on body/grid) to close
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.card') && !e.target.closest('.info-panel')) {
-    hidePanel();
-  }
+// ===== HOVER SOUND EFFECT (visual pulse) =====
+document.querySelectorAll('.card-link').forEach(function(link) {
+  link.addEventListener('mouseenter', function() {
+    var banner = this.querySelector('.banner-emoji');
+    if (banner) {
+      banner.style.animation = 'none';
+      banner.offsetHeight; // trigger reflow
+      banner.style.animation = 'pulseEmoji 0.5s ease-in-out';
+    }
+  });
 });
 
-// Touch support
-document.addEventListener('touchstart', function(e) {
-  if (!e.target.closest('.card') && !e.target.closest('.info-panel')) {
-    hidePanel();
-  }
+// ===== PARALLAX PARTICLES ON MOUSE MOVE =====
+document.addEventListener('mousemove', function(e) {
+  var particles = document.querySelectorAll('.particle');
+  var x = (e.clientX / window.innerWidth - 0.5) * 2;
+  var y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+  particles.forEach(function(p, i) {
+    var speed = (i + 1) * 5;
+    p.style.transform = 'translate(' + (x * speed) + 'px, ' + (y * speed) + 'px)';
+  });
+});
+
+// ===== TOUCH PARALLAX =====
+document.addEventListener('touchmove', function(e) {
+  var touch = e.touches[0];
+  var particles = document.querySelectorAll('.particle');
+  var x = (touch.clientX / window.innerWidth - 0.5) * 2;
+  var y = (touch.clientY / window.innerHeight - 0.5) * 2;
+
+  particles.forEach(function(p, i) {
+    var speed = (i + 1) * 5;
+    p.style.transform = 'translate(' + (x * speed) + 'px, ' + (y * speed) + 'px)';
+  });
 }, { passive: true });
-
-// ESC key to close
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') hidePanel();
-});
 </script>
 </body>
 </html>
